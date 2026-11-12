@@ -2,6 +2,7 @@ import React from 'react';
 import { PageId } from '../types';
 import { BUSINESS_INFO, SERVICES_DATA, PORTFOLIO_DATA } from '../data/businessData';
 import { InteractiveBeforeAfter } from '../components/InteractiveBeforeAfter';
+import { getSectionTheme } from '../utils/sectionThemes';
 import {
   ArrowRight,
   Phone,
@@ -18,6 +19,15 @@ interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
+  // Dynamically resolved section themes from the palette
+  const brandIntroTheme = getSectionTheme('ice-blue');
+  const servicesTheme = getSectionTheme('vibrant-aqua');
+  const workTheme = getSectionTheme('warm-white');
+  const trustTheme = getSectionTheme('electric-blue');
+  const beforeAfterTheme = getSectionTheme('soft-mint');
+  const mapsTheme = getSectionTheme('ice-blue');
+  const finalCtaTheme = getSectionTheme('electric-blue');
+
   return (
     <div className="w-full">
       {/* 1. HERO — FULL-WIDTH BRIGHT CINEMATIC AUTOMOTIVE PHOTOGRAPHY (Extends behind navbar) */}
@@ -29,7 +39,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
             alt="Glossy electric blue supercar reflecting natural daylight with crisp water beads"
             className="w-full h-full object-cover object-center scale-100 sm:scale-105 transition-transform duration-1000"
           />
-          {/* Subtle balanced gradient - preserves natural car colors while ensuring high legibility */}
+          {/* Balanced gradient: preserves natural car colors while ensuring high text legibility */}
           <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/35 to-transparent sm:to-black/10" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30" />
         </div>
@@ -115,8 +125,8 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
         </div>
       </section>
 
-      {/* 2. BRAND INTRODUCTION — ICE BLUE BACKGROUND (#DCEEFF) */}
-      <section className="relative py-24 bg-[#DCEEFF] hairline-t hairline-b text-[#27313B]">
+      {/* 2. BRAND INTRODUCTION — DYNAMIC ICE BLUE SECTION (#DCEEFF) */}
+      <section className={`relative py-24 ${brandIntroTheme.bgClass} ${brandIntroTheme.textClass} hairline-t hairline-b`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Prominent Large Transparent Logo Mark */}
@@ -134,19 +144,19 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
             {/* Authentic Brand Narrative & Purpose */}
             <div className="lg:col-span-7 space-y-6">
               <div className="space-y-2">
-                <span className="text-xs uppercase tracking-widest text-[#075BFF] font-bold">
+                <span className={`text-xs uppercase tracking-widest ${brandIntroTheme.accentClass} font-bold`}>
                   Authentic Automotive Heritage
                 </span>
-                <h2 className="font-heading font-extrabold text-3xl sm:text-4xl md:text-5xl uppercase tracking-tight text-[#27313B] leading-tight">
+                <h2 className={`font-heading font-extrabold text-3xl sm:text-4xl md:text-5xl uppercase tracking-tight ${brandIntroTheme.headingClass} leading-tight`}>
                   ENGINEERED AUTOMOTIVE CARE IN RAWALPINDI
                 </h2>
               </div>
 
-              <p className="text-[#27313B]/90 text-base sm:text-lg leading-relaxed font-normal">
-                Operating directly from Qadeer Market, Main Gulzar-e-Quaid, Rawalpindi, <strong className="text-[#27313B] font-bold">Ultraclean Auto Detailing</strong> was founded with a singular conviction: vehicles in Pakistan deserve meticulous, defect-free detailing without harmful shortcuts.
+              <p className={`${brandIntroTheme.subtextClass} text-base sm:text-lg leading-relaxed font-normal`}>
+                Operating directly from Qadeer Market, Main Gulzar-e-Quaid, Rawalpindi, <strong className="font-bold">Ultraclean Auto Detailing</strong> was founded with a singular conviction: vehicles in Pakistan deserve meticulous, defect-free detailing without harmful shortcuts.
               </p>
 
-              <p className="text-[#27313B]/80 text-sm leading-relaxed">
+              <p className={`${brandIntroTheme.subtextClass} text-sm leading-relaxed`}>
                 Every vehicle that enters our studio or is picked up through our curbside doorstep program undergoes rigorous multi-step inspection. We reject harsh laundry detergents and abrasive cloths that leave swirl webs. Instead, we employ rotary compounding, precision pH-neutral foam baths, commercial steam sanitization, and 9H SiO2 ceramic coatings.
               </p>
 
@@ -155,32 +165,32 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                 <div className="flex items-start gap-3">
                   <Check className="w-4 h-4 text-[#075BFF] shrink-0 mt-0.5" />
                   <div>
-                    <span className="text-[#27313B] font-bold block uppercase">Zero Hologram Compounding</span>
-                    <span className="text-[#27313B]/70">Micro-abrasive defect leveling without swirl hazing</span>
+                    <span className="font-bold block uppercase">Zero Hologram Compounding</span>
+                    <span className="opacity-75">Micro-abrasive defect leveling without swirl hazing</span>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <Check className="w-4 h-4 text-[#075BFF] shrink-0 mt-0.5" />
                   <div>
-                    <span className="text-[#27313B] font-bold block uppercase">Full Seats-Out Extraction</span>
-                    <span className="text-[#27313B]/70">Unbolted seat frames for authentic deep floor sanitizing</span>
+                    <span className="font-bold block uppercase">Full Seats-Out Extraction</span>
+                    <span className="opacity-75">Unbolted seat frames for authentic deep floor sanitizing</span>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <Check className="w-4 h-4 text-[#075BFF] shrink-0 mt-0.5" />
                   <div>
-                    <span className="text-[#27313B] font-bold block uppercase">Curbside Pickup Service</span>
-                    <span className="text-[#27313B]/70">Doorstep vehicle logistics across Rawalpindi & Islamabad</span>
+                    <span className="font-bold block uppercase">Curbside Pickup Service</span>
+                    <span className="opacity-75">Doorstep vehicle logistics across Rawalpindi & Islamabad</span>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <Check className="w-4 h-4 text-[#075BFF] shrink-0 mt-0.5" />
                   <div>
-                    <span className="text-[#27313B] font-bold block uppercase">9H Chemical & UV Shield</span>
-                    <span className="text-[#27313B]/70">SiO2 quartz molecular bonding for extreme water beading</span>
+                    <span className="font-bold block uppercase">9H Chemical & UV Shield</span>
+                    <span className="opacity-75">SiO2 quartz molecular bonding for extreme water beading</span>
                   </div>
                 </div>
               </div>
@@ -189,16 +199,16 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
         </div>
       </section>
 
-      {/* 3. FEATURED DETAILING SERVICES — VIBRANT AQUA BACKGROUND (#00C7C7) */}
-      <section className="py-24 bg-[#00C7C7] text-[#27313B]">
+      {/* 3. FEATURED DETAILING SERVICES — DYNAMIC VIBRANT AQUA SECTION (#00C7C7) */}
+      <section className={`py-24 ${servicesTheme.bgClass} ${servicesTheme.textClass}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#27313B]/15">
+          <div className={`flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b ${servicesTheme.dividerClass}`}>
             <div>
               <span className="text-xs uppercase tracking-widest text-white font-extrabold">
                 Studio & Mobile Capabilities
               </span>
-              <h2 className="font-heading font-extrabold text-3xl sm:text-5xl uppercase tracking-tight text-[#27313B] mt-1">
+              <h2 className={`font-heading font-extrabold text-3xl sm:text-5xl uppercase tracking-tight ${servicesTheme.headingClass} mt-1`}>
                 Specialized Detailing Services
               </h2>
             </div>
@@ -208,7 +218,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                 setCurrentPage('services');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="btn-borderless text-sm text-[#27313B] hover:text-white p-0 group"
+              className={`btn-borderless text-sm ${servicesTheme.ctaClass} p-0 group`}
             >
               <span className="font-bold">View All 6 Verified Services</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
@@ -216,7 +226,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
           </div>
 
           {/* Asymmetrical Editorial Service Showcase (NO CARDS / NO BOXES) */}
-          <div className="divide-y divide-[#27313B]/15">
+          <div className={`divide-y ${servicesTheme.dividerClass}`}>
             {SERVICES_DATA.slice(0, 4).map((service) => (
               <div
                 key={service.id}
@@ -225,7 +235,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                 {/* Service Index & Title */}
                 <div className="lg:col-span-5 space-y-3">
                   <div className="flex items-center gap-3">
-                    <span className="font-mono text-sm font-bold text-white bg-[#075BFF] px-2 py-0.5">
+                    <span className="font-mono text-sm font-bold text-white bg-[#075BFF] px-2.5 py-0.5">
                       {service.number}
                     </span>
                     <span className="w-8 h-px bg-[#27313B]/30" />
@@ -234,7 +244,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                     </span>
                   </div>
 
-                  <h3 className="font-heading font-extrabold text-2xl sm:text-3xl text-[#27313B] uppercase tracking-tight group-hover:text-white transition-colors">
+                  <h3 className={`font-heading font-extrabold text-2xl sm:text-3xl ${servicesTheme.headingClass} uppercase tracking-tight group-hover:text-white transition-colors`}>
                     {service.title}
                   </h3>
 
@@ -242,7 +252,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                     {service.tagline}
                   </p>
 
-                  <p className="text-xs text-[#27313B]/85 leading-relaxed">
+                  <p className={`text-xs ${servicesTheme.subtextClass} leading-relaxed`}>
                     {service.description.slice(0, 160)}...
                   </p>
 
@@ -252,7 +262,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                         setCurrentPage('services');
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                       }}
-                      className="btn-borderless text-xs text-[#27313B] hover:text-white p-0 group"
+                      className={`btn-borderless text-xs ${servicesTheme.ctaClass} p-0 group`}
                     >
                       <span className="font-bold">Explore Technical Process</span>
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -285,19 +295,19 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
         </div>
       </section>
 
-      {/* 4. FEATURED WORK — WARM WHITE (#FFFDF7) FULL-WIDTH AUTHENTIC CAR PHOTOGRAPHY */}
-      <section className="py-24 bg-[#FFFDF7] text-[#27313B]">
+      {/* 4. FEATURED WORK — DYNAMIC WARM WHITE SECTION (#FFFDF7) */}
+      <section className={`py-24 ${workTheme.bgClass} ${workTheme.textClass}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 hairline-b">
+          <div className={`flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b ${workTheme.dividerClass}`}>
             <div>
-              <span className="text-xs uppercase tracking-widest text-[#075BFF] font-bold">
+              <span className={`text-xs uppercase tracking-widest ${workTheme.accentClass} font-bold`}>
                 Customer Vehicle Archive
               </span>
-              <h2 className="font-heading font-extrabold text-3xl sm:text-5xl uppercase tracking-tight text-[#27313B] mt-1">
+              <h2 className={`font-heading font-extrabold text-3xl sm:text-5xl uppercase tracking-tight ${workTheme.headingClass} mt-1`}>
                 Genuine Detailing Transformations
               </h2>
             </div>
-            <p className="text-xs text-[#27313B]/70 max-w-sm">
+            <p className={`text-xs ${workTheme.subtextClass} max-w-sm`}>
               Real cars photographed in our Qadeer Market studio and twin cities client residences. Zero stock photography.
             </p>
           </div>
@@ -350,7 +360,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                     </h5>
                   </div>
                 </div>
-                <p className="text-xs text-[#27313B]/70">
+                <p className={`text-xs ${workTheme.subtextClass}`}>
                   {PORTFOLIO_DATA[2].description}
                 </p>
               </div>
@@ -373,7 +383,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                     </h5>
                   </div>
                 </div>
-                <p className="text-xs text-[#27313B]/70">
+                <p className={`text-xs ${workTheme.subtextClass}`}>
                   {PORTFOLIO_DATA[3].description}
                 </p>
               </div>
@@ -386,7 +396,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                 setCurrentPage('work-about-contact');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="btn-borderless text-sm text-[#075BFF] hover:text-[#00C7C7] p-0 group"
+              className={`btn-borderless text-sm ${workTheme.ctaClass} p-0 group`}
             >
               <span>Explore Complete Gallery & Studio Story</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
@@ -395,18 +405,18 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
         </div>
       </section>
 
-      {/* 5. BRAND STORYTELLING — ELECTRIC BLUE BACKGROUND (#075BFF) WITH CRISP WHITE TYPOGRAPHY */}
-      <section className="py-24 bg-[#075BFF] text-white">
+      {/* 5. BRAND STORYTELLING — DYNAMIC ELECTRIC BLUE SECTION (#075BFF) */}
+      <section className={`py-24 ${trustTheme.bgClass} ${trustTheme.textClass}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-5 space-y-4">
-              <span className="text-xs uppercase tracking-widest text-[#D7F34A] font-extrabold">
+              <span className={`text-xs uppercase tracking-widest ${trustTheme.accentClass} font-extrabold`}>
                 Verified Twin Cities Reputation
               </span>
-              <h2 className="font-heading font-extrabold text-3xl sm:text-4xl md:text-5xl uppercase tracking-tight text-white leading-tight">
+              <h2 className={`font-heading font-extrabold text-3xl sm:text-4xl md:text-5xl uppercase tracking-tight ${trustTheme.headingClass} leading-tight`}>
                 TRUSTED BY OVER 6.2K CAR OWNERS
               </h2>
-              <p className="text-sm text-white/90 leading-relaxed font-normal">
+              <p className={`text-sm ${trustTheme.subtextClass} leading-relaxed font-normal`}>
                 We believe in total transparency. Our daily progress, before/after videos, and paint correction finishes are documented publicly on Facebook and YouTube for automotive enthusiasts across Rawalpindi and Islamabad to inspect.
               </p>
 
@@ -415,7 +425,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                   href={BUSINESS_INFO.facebookUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-borderless text-white hover:text-[#D7F34A] p-0 group"
+                  className={`btn-borderless ${trustTheme.ctaClass} p-0 group`}
                 >
                   <span className="font-bold">Visit Facebook Page</span>
                   <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -425,7 +435,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                   href={BUSINESS_INFO.youtubeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-borderless text-white hover:text-[#D7F34A] p-0 group"
+                  className={`btn-borderless ${trustTheme.ctaClass} p-0 group`}
                 >
                   <span className="font-bold">YouTube Channel</span>
                   <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -440,7 +450,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                   <span className="font-heading font-extrabold text-4xl sm:text-5xl text-white block">
                     6.2K+
                   </span>
-                  <span className="text-xs uppercase font-bold text-[#D7F34A] tracking-wider block mt-1">
+                  <span className={`text-xs uppercase font-bold ${trustTheme.accentClass} tracking-wider block mt-1`}>
                     Official Facebook Followers
                   </span>
                   <p className="text-xs text-white/80 mt-2">
@@ -452,7 +462,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                   <span className="font-heading font-extrabold text-4xl sm:text-5xl text-white block">
                     100%
                   </span>
-                  <span className="text-xs uppercase font-bold text-[#D7F34A] tracking-wider block mt-1">
+                  <span className={`text-xs uppercase font-bold ${trustTheme.accentClass} tracking-wider block mt-1`}>
                     Authentic Craftsmanship
                   </span>
                   <p className="text-xs text-white/80 mt-2">
@@ -466,7 +476,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                   <span className="font-heading font-extrabold text-4xl sm:text-5xl text-white block">
                     Twin Cities
                   </span>
-                  <span className="text-xs uppercase font-bold text-[#D7F34A] tracking-wider block mt-1">
+                  <span className={`text-xs uppercase font-bold ${trustTheme.accentClass} tracking-wider block mt-1`}>
                     Coverage Area
                   </span>
                   <p className="text-xs text-white/80 mt-2">
@@ -478,7 +488,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                   <span className="font-heading font-extrabold text-4xl sm:text-5xl text-white block">
                     0302 0100070
                   </span>
-                  <span className="text-xs uppercase font-bold text-[#D7F34A] tracking-wider block mt-1">
+                  <span className={`text-xs uppercase font-bold ${trustTheme.accentClass} tracking-wider block mt-1`}>
                     Direct Master Line
                   </span>
                   <p className="text-xs text-white/80 mt-2">
@@ -491,8 +501,8 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
         </div>
       </section>
 
-      {/* 6. BEFORE-AND-AFTER SHOWCASE — SOFT MINT BACKGROUND (#E5F6EF) */}
-      <section className="py-24 bg-[#E5F6EF] hairline-t hairline-b">
+      {/* 6. BEFORE-AND-AFTER SHOWCASE — DYNAMIC SOFT MINT SECTION (#E5F6EF) */}
+      <section className={`py-24 ${beforeAfterTheme.bgClass} hairline-t hairline-b`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <InteractiveBeforeAfter
             beforeImage="/assets/work/yU9umWIxfkg.jpg"
@@ -503,24 +513,24 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
         </div>
       </section>
 
-      {/* 7. GOOGLE MAPS LOCATION & LOCAL PRESENCE (ICE BLUE #DCEEFF) */}
-      <section className="py-24 bg-[#DCEEFF] text-[#27313B] hairline-b">
+      {/* 7. GOOGLE MAPS LOCATION & LOCAL PRESENCE — DYNAMIC ICE BLUE SECTION (#DCEEFF) */}
+      <section className={`py-24 ${mapsTheme.bgClass} ${mapsTheme.textClass} hairline-b`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Address Details */}
             <div className="lg:col-span-5 space-y-6">
-              <span className="text-xs uppercase tracking-widest text-[#075BFF] font-bold">
+              <span className={`text-xs uppercase tracking-widest ${mapsTheme.accentClass} font-bold`}>
                 Physical Detailing Center
               </span>
-              <h2 className="font-heading font-extrabold text-3xl sm:text-4xl uppercase tracking-tight text-[#27313B] leading-tight">
+              <h2 className={`font-heading font-extrabold text-3xl sm:text-4xl uppercase tracking-tight ${mapsTheme.headingClass} leading-tight`}>
                 VISIT OUR WORKSHOP IN GULZAR-E-QUAID
               </h2>
 
-              <div className="space-y-4 text-sm text-[#27313B]">
+              <div className="space-y-4 text-sm">
                 <div className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-[#075BFF] shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-[#27313B] block font-semibold">Workshop Address:</strong>
+                    <strong className="block font-semibold">Workshop Address:</strong>
                     <span>{BUSINESS_INFO.address}</span>
                   </div>
                 </div>
@@ -528,8 +538,8 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                 <div className="flex items-start gap-3">
                   <Truck className="w-5 h-5 text-[#075BFF] shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-[#27313B] block font-semibold">Curbside Pickup Service:</strong>
-                    <span className="text-[#27313B]/80">We pick up your car anywhere in Rawalpindi & Islamabad, detail it, and return it safely to your driveway.</span>
+                    <strong className="block font-semibold">Curbside Pickup Service:</strong>
+                    <span className="opacity-80">We pick up your car anywhere in Rawalpindi & Islamabad, detail it, and return it safely to your driveway.</span>
                   </div>
                 </div>
               </div>
@@ -539,7 +549,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                   href={BUSINESS_INFO.googleMapsDirectionsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-borderless text-sm text-[#075BFF] hover:text-[#00C7C7] p-0 group"
+                  className={`btn-borderless text-sm ${mapsTheme.ctaClass} p-0 group`}
                 >
                   <MapPin className="w-4 h-4 text-[#075BFF]" />
                   <span>Get Driving Directions</span>
@@ -548,7 +558,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
 
                 <a
                   href={`tel:${BUSINESS_INFO.phoneInternational}`}
-                  className="btn-borderless text-sm text-[#27313B] hover:text-[#075BFF] p-0 group"
+                  className={`btn-borderless text-sm ${mapsTheme.secondaryCtaClass} p-0 group`}
                 >
                   <Phone className="w-4 h-4 text-[#075BFF]" />
                   <span>Call 0302 0100070</span>
@@ -572,7 +582,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                   className="w-full h-full"
                 />
               </div>
-              <div className="flex justify-between items-center text-[11px] text-[#27313B]/70 pt-2 font-medium">
+              <div className="flex justify-between items-center text-[11px] opacity-70 pt-2 font-medium">
                 <span>Qadeer Market, Main Gulzar-e-Quaid, Rawalpindi</span>
                 <span>Open 7 Days: 9:00 AM – 9:00 PM</span>
               </div>
@@ -581,17 +591,17 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
         </div>
       </section>
 
-      {/* 8. FINAL CTA — ELECTRIC BLUE (#075BFF) WITH FRESH LIME ACCENTS (#D7F34A) */}
-      <section className="py-24 bg-[#075BFF] text-white hairline-t relative overflow-hidden">
+      {/* 8. FINAL CTA — DYNAMIC ELECTRIC BLUE SECTION (#075BFF) */}
+      <section className={`py-24 ${finalCtaTheme.bgClass} ${finalCtaTheme.textClass} hairline-t relative overflow-hidden`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl space-y-6">
-            <span className="text-xs uppercase tracking-widest text-[#D7F34A] font-extrabold">
+            <span className={`text-xs uppercase tracking-widest ${finalCtaTheme.accentClass} font-extrabold`}>
               Ready For Uncompromising Paint Clarity?
             </span>
-            <h2 className="font-heading font-extrabold text-3xl sm:text-5xl uppercase tracking-tight text-white leading-none">
+            <h2 className={`font-heading font-extrabold text-3xl sm:text-5xl uppercase tracking-tight ${finalCtaTheme.headingClass} leading-none`}>
               EXPERIENCE TRUE AUTOMOTIVE EXCELLENCE
             </h2>
-            <p className="text-base text-white/90 leading-relaxed font-normal">
+            <p className={`text-base ${finalCtaTheme.subtextClass} leading-relaxed font-normal`}>
               Whether your vehicle requires our complete 9H ceramic coating treatment, a seats-out interior extraction, or convenient curbside pickup at your residence, our team delivers unmatched perfection.
             </p>
 
@@ -605,7 +615,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   }, 100);
                 }}
-                className="btn-borderless text-base text-[#D7F34A] hover:text-white p-0 group"
+                className={`btn-borderless text-base ${finalCtaTheme.ctaClass} p-0 group`}
               >
                 <span>BOOK YOUR DETAILING NOW</span>
                 <ArrowRight className="w-5 h-5 text-[#D7F34A] group-hover:translate-x-1.5 transition-transform" />
@@ -615,7 +625,7 @@ export const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                 href={BUSINESS_INFO.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-borderless text-base text-white hover:text-[#D7F34A] p-0 group"
+                className={`btn-borderless text-base ${finalCtaTheme.secondaryCtaClass} p-0 group`}
               >
                 <span>WhatsApp 0302 0100070</span>
                 <ArrowUpRight className="w-5 h-5 text-[#D7F34A] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { PageId } from '../types';
 import { SERVICES_DATA, BUSINESS_INFO } from '../data/businessData';
 import { BookingForm } from '../components/BookingForm';
+import { getSectionTheme, SectionThemeKey } from '../utils/sectionThemes';
 import {
   ArrowRight,
   Clock,
@@ -26,15 +27,18 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) =>
     }, 100);
   };
 
-  // Section background map based on user's exact specification
-  const serviceBackgrounds = [
-    { bg: 'bg-[#FFFDF7]', text: 'text-[#27313B]', isDark: false }, // 01: Warm White
-    { bg: 'bg-[#DCEEFF]', text: 'text-[#27313B]', isDark: false }, // 02: Ice Blue
-    { bg: 'bg-[#075BFF]', text: 'text-white', isDark: true },      // 03: Electric Blue
-    { bg: 'bg-[#E5F6EF]', text: 'text-[#27313B]', isDark: false }, // 04: Soft Mint
-    { bg: 'bg-[#FFFDF7]', text: 'text-[#27313B]', isDark: false }, // 05: Warm White
-    { bg: 'bg-[#DCEEFF]', text: 'text-[#27313B]', isDark: false }  // 06: Ice Blue
+  // Section theme palette sequence: Ice Blue, Soft Mint, Electric Blue, Warm White
+  const serviceThemeKeys: SectionThemeKey[] = [
+    'warm-white',   // 01. Ceramic Coating
+    'ice-blue',     // 02. Paint Correction
+    'electric-blue',// 03. Interior Deep Extraction
+    'soft-mint',    // 04. Precision Foam Wash
+    'warm-white',   // 05. Engine Bay Detailing
+    'ice-blue'      // 06. Curbside Pickup Service
   ];
+
+  const curbsideTheme = getSectionTheme('soft-mint');
+  const bookingTheme = getSectionTheme('vibrant-aqua');
 
   return (
     <div className="w-full">
@@ -46,7 +50,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) =>
             alt="Glossy Honda Civic ceramic coating reflection in natural daylight"
             className="w-full h-full object-cover object-center"
           />
-          {/* Subtle daylight gradient for legibility */}
+          {/* Natural daylight gradient for legibility */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/35 to-black/40" />
           <div className="absolute inset-0 bg-[#075BFF]/15 mix-blend-multiply" />
         </div>
@@ -80,17 +84,18 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) =>
         </div>
       </section>
 
-      {/* 2. DEDICATED FULL-WIDTH COLOR-BLOCKED SERVICE SECTIONS */}
+      {/* 2. DEDICATED FULL-WIDTH COLOR-BLOCKED SERVICE SECTIONS (DYNAMIC PALETTE) */}
       <div className="divide-y divide-black/5">
         {SERVICES_DATA.map((service, index) => {
-          const config = serviceBackgrounds[index] || serviceBackgrounds[0];
+          const themeKey = serviceThemeKeys[index] || 'ice-blue';
+          const theme = getSectionTheme(themeKey);
           const isEven = index % 2 === 0;
 
           return (
             <section
               key={service.id}
               id={`service-${service.id}`}
-              className={`py-24 relative scroll-mt-24 ${config.bg} ${config.text}`}
+              className={`py-24 relative scroll-mt-24 ${theme.bgClass} ${theme.textClass}`}
             >
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* 2-Column Split Composition (Dynamic Alternation) */}
@@ -103,16 +108,14 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) =>
                   <div className={`space-y-6 ${isEven ? 'lg:col-span-6' : 'lg:col-span-6 lg:order-2'}`}>
                     <div className="flex items-center gap-3">
                       <span
-                        className={`font-mono text-sm font-bold px-2.5 py-0.5 ${
-                          config.isDark ? 'bg-white text-[#075BFF]' : 'bg-[#075BFF] text-white'
-                        }`}
+                        className={`font-mono text-sm font-bold px-2.5 py-0.5 ${theme.badgeBgClass} ${theme.badgeTextClass}`}
                       >
                         SERVICE // {service.number}
                       </span>
-                      <span className={`w-12 h-px ${config.isDark ? 'bg-white/30' : 'bg-black/20'}`} />
+                      <span className={`w-12 h-px ${theme.isDark ? 'bg-white/30' : 'bg-black/20'}`} />
                       <span
                         className={`text-xs font-mono uppercase font-bold flex items-center gap-1 ${
-                          config.isDark ? 'text-[#D7F34A]' : 'text-[#075BFF]'
+                          theme.isDark ? 'text-[#D7F34A]' : 'text-[#075BFF]'
                         }`}
                       >
                         <Clock className="w-3.5 h-3.5" />
@@ -121,26 +124,20 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) =>
                     </div>
 
                     <h2
-                      className={`font-heading font-extrabold text-3xl sm:text-4xl md:text-5xl uppercase tracking-tight leading-tight ${
-                        config.isDark ? 'text-white' : 'text-[#27313B]'
-                      }`}
+                      className={`font-heading font-extrabold text-3xl sm:text-4xl md:text-5xl uppercase tracking-tight leading-tight ${theme.headingClass}`}
                     >
                       {service.title}
                     </h2>
 
                     <p
                       className={`text-base font-semibold leading-relaxed ${
-                        config.isDark ? 'text-[#D7F34A]' : 'text-[#075BFF]'
+                        theme.isDark ? 'text-[#D7F34A]' : 'text-[#075BFF]'
                       }`}
                     >
                       {service.tagline}
                     </p>
 
-                    <p
-                      className={`text-sm leading-relaxed ${
-                        config.isDark ? 'text-white/85' : 'text-[#27313B]/80'
-                      }`}
-                    >
+                    <p className={`text-sm leading-relaxed ${theme.subtextClass}`}>
                       {service.description}
                     </p>
 
@@ -148,7 +145,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) =>
                     <div className="space-y-3 pt-2">
                       <span
                         className={`text-xs uppercase font-mono tracking-wider block font-bold ${
-                          config.isDark ? 'text-white/70' : 'text-[#27313B]/70'
+                          theme.isDark ? 'text-white/70' : 'text-[#27313B]/70'
                         }`}
                       >
                         Technical Execution Standards:
@@ -158,7 +155,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) =>
                           <div key={hIdx} className="flex items-start gap-2.5">
                             <span
                               className={`w-1.5 h-1.5 rounded-full shrink-0 mt-1.5 ${
-                                config.isDark ? 'bg-[#D7F34A]' : 'bg-[#075BFF]'
+                                theme.isDark ? 'bg-[#D7F34A]' : 'bg-[#075BFF]'
                               }`}
                             />
                             <span>{highlight}</span>
@@ -170,16 +167,16 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) =>
                     {/* Target Vehicle Type */}
                     <div
                       className={`pt-2 text-xs flex items-center gap-2 ${
-                        config.isDark ? 'text-white/80' : 'text-[#27313B]/70'
+                        theme.isDark ? 'text-white/80' : 'text-[#27313B]/70'
                       }`}
                     >
                       <Car
                         className={`w-4 h-4 shrink-0 ${
-                          config.isDark ? 'text-[#D7F34A]' : 'text-[#075BFF]'
+                          theme.isDark ? 'text-[#D7F34A]' : 'text-[#075BFF]'
                         }`}
                       />
                       <span>
-                        <strong className={config.isDark ? 'text-white' : 'text-[#27313B]'}>
+                        <strong className={theme.isDark ? 'text-white' : 'text-[#27313B]'}>
                           Recommended For:{' '}
                         </strong>
                         {service.bestFor}
@@ -190,11 +187,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) =>
                     <div className="pt-4 flex flex-wrap items-center gap-8">
                       <button
                         onClick={() => handleBookService(service.id)}
-                        className={`btn-borderless text-sm p-0 group ${
-                          config.isDark
-                            ? 'text-[#D7F34A] hover:text-white'
-                            : 'text-[#075BFF] hover:text-[#00C7C7]'
-                        }`}
+                        className={`btn-borderless text-sm p-0 group ${theme.ctaClass}`}
                       >
                         <span>Book This Treatment</span>
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
@@ -202,11 +195,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) =>
 
                       <a
                         href={`tel:${BUSINESS_INFO.phoneInternational}`}
-                        className={`btn-borderless text-sm p-0 group ${
-                          config.isDark
-                            ? 'text-white hover:text-[#D7F34A]'
-                            : 'text-[#27313B] hover:text-[#075BFF]'
-                        }`}
+                        className={`btn-borderless text-sm p-0 group ${theme.secondaryCtaClass}`}
                       >
                         <Phone className="w-4 h-4" />
                         <span>Inquire: {BUSINESS_INFO.phone}</span>
@@ -238,7 +227,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) =>
 
                     <p
                       className={`text-[11px] font-mono tracking-wide ${
-                        config.isDark ? 'text-white/70' : 'text-[#27313B]/70'
+                        theme.isDark ? 'text-white/70' : 'text-[#27313B]/70'
                       }`}
                     >
                       {service.altText}
@@ -251,19 +240,19 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) =>
         })}
       </div>
 
-      {/* 3. CURBSIDE PICKUP PROCESS (SOFT MINT #E5F6EF) */}
-      <section className="py-24 bg-[#E5F6EF] text-[#27313B] hairline-t">
+      {/* 3. CURBSIDE PICKUP PROCESS — DYNAMIC SOFT MINT SECTION (#E5F6EF) */}
+      <section className={`py-24 ${curbsideTheme.bgClass} ${curbsideTheme.textClass} hairline-t`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-6 space-y-6">
-              <span className="text-xs uppercase tracking-widest text-[#075BFF] font-bold flex items-center gap-2">
+              <span className={`text-xs uppercase tracking-widest ${curbsideTheme.accentClass} font-bold flex items-center gap-2`}>
                 <Truck className="w-4 h-4 text-[#075BFF]" />
                 <span>Verified Service Specialty</span>
               </span>
-              <h2 className="font-heading font-extrabold text-3xl sm:text-5xl uppercase tracking-tight text-[#27313B] leading-tight">
+              <h2 className={`font-heading font-extrabold text-3xl sm:text-5xl uppercase tracking-tight ${curbsideTheme.headingClass} leading-tight`}>
                 HOW CURBSIDE PICKUP OPERATES
               </h2>
-              <p className="text-sm text-[#27313B]/80 leading-relaxed font-normal">
+              <p className={`text-sm ${curbsideTheme.subtextClass} leading-relaxed font-normal`}>
                 As advertised on our official Facebook page, we offer a dedicated curbside pickup logistics program for car owners in Rawalpindi and Islamabad who want studio-grade detailing without taking time off work.
               </p>
 
@@ -327,8 +316,8 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) =>
         </div>
       </section>
 
-      {/* 4. FINAL CTA & BOOKING SECTION — VIBRANT AQUA BACKGROUND (#00C7C7) */}
-      <section id="services-booking-section" className="py-24 bg-[#00C7C7] text-[#27313B]">
+      {/* 4. FINAL CTA & BOOKING SECTION — DYNAMIC VIBRANT AQUA SECTION (#00C7C7) */}
+      <section id="services-booking-section" className={`py-24 ${bookingTheme.bgClass} ${bookingTheme.textClass}`}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <BookingForm
             initialServiceId={selectedServiceForModal || undefined}

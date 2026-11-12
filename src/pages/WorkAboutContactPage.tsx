@@ -2,6 +2,7 @@ import React from 'react';
 import { PageId } from '../types';
 import { PORTFOLIO_DATA, BUSINESS_INFO } from '../data/businessData';
 import { BookingForm } from '../components/BookingForm';
+import { getSectionTheme, getAlternatingTheme } from '../utils/sectionThemes';
 import {
   MapPin,
   Phone,
@@ -17,6 +18,11 @@ interface WorkAboutContactPageProps {
 }
 
 export const WorkAboutContactPage: React.FC<WorkAboutContactPageProps> = ({ setCurrentPage }) => {
+  // Dynamically resolved section themes
+  const archiveHeaderTheme = getSectionTheme('ice-blue');
+  const aboutTheme = getSectionTheme('soft-mint');
+  const contactTheme = getSectionTheme('electric-blue');
+
   return (
     <div className="w-full">
       {/* 1. HERO — FULL-WIDTH BRIGHT AUTOMOTIVE PHOTOGRAPHY (Extends behind navbar) */}
@@ -61,33 +67,39 @@ export const WorkAboutContactPage: React.FC<WorkAboutContactPageProps> = ({ setC
         </div>
       </section>
 
-      {/* 2. OUR WORK — ALTERNATING COLORFUL IMAGE-LED BACKGROUNDS (ICE BLUE #DCEEFF / WARM WHITE #FFFDF7) */}
-      <section id="our-work" className="py-24 bg-[#DCEEFF] text-[#27313B] scroll-mt-24">
+      {/* 2. OUR WORK — ARCHIVE HEADER WITH DYNAMIC ICE BLUE THEME */}
+      <section id="our-work" className={`pt-24 pb-8 ${archiveHeaderTheme.bgClass} ${archiveHeaderTheme.textClass} scroll-mt-24`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#27313B]/15">
+          <div className={`flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b ${archiveHeaderTheme.dividerClass}`}>
             <div>
-              <span className="text-xs uppercase tracking-widest text-[#075BFF] font-bold">
+              <span className={`text-xs uppercase tracking-widest ${archiveHeaderTheme.accentClass} font-bold`}>
                 Section 01 // Vehicle Results
               </span>
-              <h2 className="font-heading font-extrabold text-3xl sm:text-5xl uppercase tracking-tight text-[#27313B] mt-1">
+              <h2 className={`font-heading font-extrabold text-3xl sm:text-5xl uppercase tracking-tight ${archiveHeaderTheme.headingClass} mt-1`}>
                 Authentic Detailing Archive
               </h2>
             </div>
-            <p className="text-xs text-[#27313B]/70 max-w-md">
+            <p className={`text-xs ${archiveHeaderTheme.subtextClass} max-w-md`}>
               Every photograph shown here captures real vehicle projects completed by Ultraclean in Rawalpindi and surrounding regions.
             </p>
           </div>
+        </div>
+      </section>
 
-          {/* Unboxed Asymmetric Layout for Portfolio (NO BOXED CARDS) */}
-          <div className="divide-y divide-[#27313B]/15 pt-4">
-            {PORTFOLIO_DATA.map((item, index) => {
-              const isEven = index % 2 === 0;
+      {/* 3. DYNAMIC ALTERNATING COLORFUL IMAGE-LED WORK SECTIONS (Ice Blue / Warm White / Soft Mint) */}
+      <div className="w-full">
+        {PORTFOLIO_DATA.map((item, index) => {
+          // Alternates dynamically through Ice Blue, Warm White, Soft Mint
+          const itemTheme = getAlternatingTheme(index, ['ice-blue', 'warm-white', 'soft-mint']);
+          const isEven = index % 2 === 0;
 
-              return (
-                <div
-                  key={item.id}
-                  className="py-16 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center group"
-                >
+          return (
+            <section
+              key={item.id}
+              className={`py-16 sm:py-20 ${itemTheme.bgClass} ${itemTheme.textClass} border-t ${itemTheme.dividerClass}`}
+            >
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center group">
                   {/* Photo Display (7 columns) */}
                   <div className={`space-y-3 ${isEven ? 'lg:col-span-7' : 'lg:col-span-7 lg:order-2'}`}>
                     <div className="relative aspect-[16/10] overflow-hidden shadow-2xl">
@@ -116,24 +128,24 @@ export const WorkAboutContactPage: React.FC<WorkAboutContactPageProps> = ({ setC
                   {/* Editorial Content (5 columns) */}
                   <div className={`space-y-5 ${isEven ? 'lg:col-span-5' : 'lg:col-span-5 lg:order-1'}`}>
                     <div className="space-y-1">
-                      <span className="text-xs font-mono uppercase tracking-widest text-[#075BFF] font-bold">
+                      <span className={`text-xs font-mono uppercase tracking-widest ${itemTheme.accentClass} font-bold`}>
                         {item.service}
                       </span>
-                      <h3 className="font-heading font-extrabold text-2xl sm:text-3xl uppercase text-[#27313B] tracking-tight">
+                      <h3 className={`font-heading font-extrabold text-2xl sm:text-3xl uppercase ${itemTheme.headingClass} tracking-tight`}>
                         {item.title}
                       </h3>
                     </div>
 
-                    <p className="text-sm text-[#27313B]/80 leading-relaxed font-normal">
+                    <p className={`text-sm ${itemTheme.subtextClass} leading-relaxed font-normal`}>
                       {item.description}
                     </p>
 
                     {/* Results unboxed list */}
                     <div className="space-y-2 pt-2">
-                      <span className="text-xs font-mono uppercase tracking-wider text-[#27313B]/70 block font-semibold">
+                      <span className={`text-xs font-mono uppercase tracking-wider ${itemTheme.subtextClass} block font-semibold`}>
                         Verified Outcomes:
                       </span>
-                      <ul className="space-y-1.5 text-xs text-[#27313B]">
+                      <ul className={`space-y-1.5 text-xs ${itemTheme.textClass}`}>
                         {item.results.map((res, rIdx) => (
                           <li key={rIdx} className="flex items-center gap-2">
                             <span className="w-1.5 h-1.5 bg-[#075BFF] rounded-full shrink-0" />
@@ -146,7 +158,7 @@ export const WorkAboutContactPage: React.FC<WorkAboutContactPageProps> = ({ setC
                     <div className="pt-2">
                       <a
                         href="#booking-section"
-                        className="btn-borderless text-xs text-[#075BFF] hover:text-[#00C7C7] p-0 group"
+                        className={`btn-borderless text-xs ${itemTheme.ctaClass} p-0 group`}
                       >
                         <span className="font-bold">Request Similar Treatment</span>
                         <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -154,14 +166,17 @@ export const WorkAboutContactPage: React.FC<WorkAboutContactPageProps> = ({ setC
                     </div>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+              </div>
+            </section>
+          );
+        })}
+      </div>
 
-      {/* 3. ABOUT ULTRACLEAN — SOFT MINT BACKGROUND (#E5F6EF) */}
-      <section id="about-ultraclean" className="py-24 bg-[#E5F6EF] text-[#27313B] hairline-t scroll-mt-24">
+      {/* 4. ABOUT ULTRACLEAN — DYNAMIC SOFT MINT BACKGROUND (#E5F6EF) */}
+      <section
+        id="about-ultraclean"
+        className={`py-24 ${aboutTheme.bgClass} ${aboutTheme.textClass} border-t ${aboutTheme.dividerClass} scroll-mt-24`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Lead Detailer / Founder Real Photo Feature */}
@@ -185,7 +200,7 @@ export const WorkAboutContactPage: React.FC<WorkAboutContactPageProps> = ({ setC
                   </p>
                 </div>
               </div>
-              <div className="flex items-center justify-between text-xs text-[#27313B]/70 font-mono font-medium">
+              <div className={`flex items-center justify-between text-xs ${aboutTheme.subtextClass} font-mono font-medium`}>
                 <span>0302 0100070</span>
                 <span>RAWALPINDI & ISLAMABAD</span>
               </div>
@@ -193,28 +208,28 @@ export const WorkAboutContactPage: React.FC<WorkAboutContactPageProps> = ({ setC
 
             {/* Authentic Brand Narrative (Open, unboxed, bold Barlow typography) */}
             <div className="lg:col-span-7 space-y-6">
-              <span className="text-xs uppercase tracking-widest text-[#075BFF] font-bold">
+              <span className={`text-xs uppercase tracking-widest ${aboutTheme.accentClass} font-bold`}>
                 Section 02 // Studio Philosophy
               </span>
-              <h2 className="font-heading font-extrabold text-3xl sm:text-5xl uppercase tracking-tight text-[#27313B] leading-tight">
+              <h2 className={`font-heading font-extrabold text-3xl sm:text-5xl uppercase tracking-tight ${aboutTheme.headingClass} leading-tight`}>
                 BUILT ON OBSESSION WITH PAINT PRESERVATION
               </h2>
 
-              <p className="text-[#27313B]/90 text-base leading-relaxed">
-                Ultraclean Auto Detailing was established to provide the twin cities with an automotive care sanctuary where science replaces guesswork. Located in <strong className="text-[#27313B] font-bold">Qadeer Market, Main Gulzar-e-Quaid, Rawalpindi</strong>, our studio caters to car owners who recognize that clearcoat is delicate and irreversible once burnt by inexperienced buffers.
+              <p className={`${aboutTheme.textClass} text-base leading-relaxed`}>
+                Ultraclean Auto Detailing was established to provide the twin cities with an automotive care sanctuary where science replaces guesswork. Located in <strong className="font-bold">Qadeer Market, Main Gulzar-e-Quaid, Rawalpindi</strong>, our studio caters to car owners who recognize that clearcoat is delicate and irreversible once burnt by inexperienced buffers.
               </p>
 
-              <p className="text-[#27313B]/80 text-sm leading-relaxed">
+              <p className={`${aboutTheme.subtextClass} text-sm leading-relaxed`}>
                 Whether detailing a daily commuter sedan or a luxury Toyota Land Cruiser, our methodology remains identical: measure clearcoat with electronic gauges, strip contaminants with non-acidic chemistry, level micro-scratches with rotary compound, and seal surfaces with authentic 9H quartz coatings.
               </p>
 
               {/* Three Core Tenets (Clean hairline separated list) */}
-              <div className="space-y-4 pt-4 border-t border-[#27313B]/10">
+              <div className={`space-y-4 pt-4 border-t ${aboutTheme.dividerClass}`}>
                 <div className="flex items-start gap-4">
                   <span className="font-mono text-sm text-[#075BFF] font-bold">01</span>
                   <div>
-                    <h5 className="text-sm font-bold uppercase text-[#27313B]">Genuine Center & Doorstep Operations</h5>
-                    <p className="text-xs text-[#27313B]/70 mt-0.5">
+                    <h5 className={`text-sm font-bold uppercase ${aboutTheme.headingClass}`}>Genuine Center & Doorstep Operations</h5>
+                    <p className={`text-xs ${aboutTheme.subtextClass} mt-0.5`}>
                       We operate a physical studio in Gulzar-e-Quaid and provide professional curbside pickup and doorstep mobile car care across Rawalpindi, Islamabad, Wah Cantt, and Taxila.
                     </p>
                   </div>
@@ -223,8 +238,8 @@ export const WorkAboutContactPage: React.FC<WorkAboutContactPageProps> = ({ setC
                 <div className="flex items-start gap-4">
                   <span className="font-mono text-sm text-[#00C7C7] font-bold">02</span>
                   <div>
-                    <h5 className="text-sm font-bold uppercase text-[#27313B]">No Caustic Chemicals or Dirty Rags</h5>
-                    <p className="text-xs text-[#27313B]/70 mt-0.5">
+                    <h5 className={`text-sm font-bold uppercase ${aboutTheme.headingClass}`}>No Caustic Chemicals or Dirty Rags</h5>
+                    <p className={`text-xs ${aboutTheme.subtextClass} mt-0.5`}>
                       Conventional washes cause permanent swirl marring with harsh alkaline powders. We use imported pH-balanced shampoos, two-bucket grit filter systems, and 800 GSM plush microfibers.
                     </p>
                   </div>
@@ -233,8 +248,8 @@ export const WorkAboutContactPage: React.FC<WorkAboutContactPageProps> = ({ setC
                 <div className="flex items-start gap-4">
                   <span className="font-mono text-sm text-[#075BFF] font-bold">03</span>
                   <div>
-                    <h5 className="text-sm font-bold uppercase text-[#27313B]">Transparent Public Record</h5>
-                    <p className="text-xs text-[#27313B]/70 mt-0.5">
+                    <h5 className={`text-sm font-bold uppercase ${aboutTheme.headingClass}`}>Transparent Public Record</h5>
+                    <p className={`text-xs ${aboutTheme.subtextClass} mt-0.5`}>
                       With over 6.2K followers on Facebook and regular video demonstrations on YouTube, our detailing work is public, authentic, and verified by real local clients.
                     </p>
                   </div>
@@ -245,20 +260,23 @@ export const WorkAboutContactPage: React.FC<WorkAboutContactPageProps> = ({ setC
         </div>
       </section>
 
-      {/* 4. CONTACT & APPOINTMENT RESERVATION — ELECTRIC BLUE (#075BFF) WITH WHITE TYPOGRAPHY */}
-      <section id="booking-section" className="py-24 bg-[#075BFF] text-white hairline-t scroll-mt-24">
+      {/* 5. CONTACT & APPOINTMENT RESERVATION — DYNAMIC ELECTRIC BLUE (#075BFF) WITH WHITE TYPOGRAPHY */}
+      <section
+        id="booking-section"
+        className={`py-24 ${contactTheme.bgClass} ${contactTheme.textClass} border-t ${contactTheme.dividerClass} scroll-mt-24`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             {/* Left Column: Direct Info & Google Maps Embed */}
             <div className="lg:col-span-5 space-y-8">
               <div className="space-y-3">
-                <span className="text-xs uppercase tracking-widest text-[#D7F34A] font-extrabold">
+                <span className={`text-xs uppercase tracking-widest ${contactTheme.accentClass} font-extrabold`}>
                   Section 03 // Direct Communication
                 </span>
-                <h2 className="font-heading font-extrabold text-3xl sm:text-4xl uppercase tracking-tight text-white leading-tight">
+                <h2 className={`font-heading font-extrabold text-3xl sm:text-4xl uppercase tracking-tight ${contactTheme.headingClass} leading-tight`}>
                   CONTACT ULTRACLEAN
                 </h2>
-                <p className="text-sm text-white/90 leading-relaxed font-normal">
+                <p className={`text-sm ${contactTheme.subtextClass} leading-relaxed font-normal`}>
                   Have questions regarding your vehicle's paintwork, ceramic coating longevity, or booking a curbside pickup? Reach us directly via call, WhatsApp, or through the reservation form.
                 </p>
               </div>
@@ -354,3 +372,4 @@ export const WorkAboutContactPage: React.FC<WorkAboutContactPageProps> = ({ setC
     </div>
   );
 };
+
